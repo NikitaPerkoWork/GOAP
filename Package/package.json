@@ -1,5 +1,5 @@
 {
-  "name": "com.crashkonijn.goap",
+  "name": "com.NikitaPerkoWork.goap",
   "version": "2.1.16",
   "displayName": "Unity GOAP Framework",
   "description": "A comprehensive, multi-threaded Goal Oriented Action Planning (GOAP) system for Unity, designed to facilitate complex AI behaviors in games.",
