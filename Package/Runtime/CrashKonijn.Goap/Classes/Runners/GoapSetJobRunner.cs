@@ -11,51 +11,54 @@ namespace CrashKonijn.Goap.Classes.Runners
 {
     public class GoapSetJobRunner
     {
-        private readonly IGoapSet goapSet;
-        private readonly IGraphResolver resolver;
-        
-        private List<JobRunHandle> resolveHandles = new();
-        private readonly IExecutableBuilder executableBuilder;
-        private readonly IPositionBuilder positionBuilder;
-        private readonly ICostBuilder costBuilder;
-        private readonly IConditionBuilder conditionBuilder;
+        private readonly IGoapSet _goapSet;
+        private readonly IGraphResolver _resolver;
+        private readonly List<JobRunHandle> _resolveHandles = new();
+        private readonly IExecutableBuilder _executableBuilder;
+        private readonly IPositionBuilder _positionBuilder;
+        private readonly ICostBuilder _costBuilder;
+        private readonly IConditionBuilder _conditionBuilder;
 
         public GoapSetJobRunner(IGoapSet goapSet, IGraphResolver graphResolver)
         {
-            this.goapSet = goapSet;
-            this.resolver = graphResolver;
+            _goapSet = goapSet;
+            _resolver = graphResolver;
             
-            this.executableBuilder = this.resolver.GetExecutableBuilder();
-            this.positionBuilder = this.resolver.GetPositionBuilder();
-            this.costBuilder = this.resolver.GetCostBuilder();
-            this.conditionBuilder = this.resolver.GetConditionBuilder();
+            _executableBuilder = _resolver.GetExecutableBuilder();
+            _positionBuilder = _resolver.GetPositionBuilder();
+            _costBuilder = _resolver.GetCostBuilder();
+            _conditionBuilder = _resolver.GetConditionBuilder();
         }
 
         public void Run()
         {
-            this.resolveHandles.Clear();
+            _resolveHandles.Clear();
             
-            this.goapSet.SensorRunner.Update();
+            _goapSet.SensorRunner.Update();
             
-            var globalData = this.goapSet.SensorRunner.SenseGlobal();
+            var globalData = _goapSet.SensorRunner.SenseGlobal();
 
-            foreach (var agent in this.goapSet.Agents.GetQueue())
+            foreach (var agent in _goapSet.Agents.GetQueue())
             {
-                this.Run(globalData, agent);
+                Run(globalData, agent);
             }
         }
 
         private void Run(GlobalWorldData globalData, IMonoAgent agent)
         {
             if (agent.IsNull())
+            {
                 return;
-            
+            }
+
             if (agent.CurrentGoal == null)
+            {
                 return;
+            }
 
-            var localData = this.goapSet.SensorRunner.SenseLocal(globalData, agent);
+            var localData = _goapSet.SensorRunner.SenseLocal(globalData, agent);
 
-            if (this.IsGoalCompleted(localData, agent))
+            if (IsGoalCompleted(localData, agent))
             {
                 var goal = agent.CurrentGoal;
                 agent.ClearGoal();
@@ -63,17 +66,17 @@ namespace CrashKonijn.Goap.Classes.Runners
                 return;
             }
 
-            this.FillBuilders(localData, agent);
+            FillBuilders(localData, agent);
             
-            this.resolveHandles.Add(new JobRunHandle(agent)
+            _resolveHandles.Add(new JobRunHandle(agent)
             {
-                Handle = this.resolver.StartResolve(new RunData
+                Handle = _resolver.StartResolve(new RunData
                 {
-                    StartIndex = this.resolver.GetIndex(agent.CurrentGoal),
-                    IsExecutable = new NativeArray<bool>(this.executableBuilder.Build(), Allocator.TempJob),
-                    Positions = new NativeArray<float3>(this.positionBuilder.Build(), Allocator.TempJob),
-                    Costs = new NativeArray<float>(this.costBuilder.Build(), Allocator.TempJob),
-                    ConditionsMet = new NativeArray<bool>(this.conditionBuilder.Build(), Allocator.TempJob),
+                    StartIndex = _resolver.GetIndex(agent.CurrentGoal),
+                    IsExecutable = new NativeArray<bool>(_executableBuilder.Build(), Allocator.TempJob),
+                    Positions = new NativeArray<float3>(_positionBuilder.Build(), Allocator.TempJob),
+                    Costs = new NativeArray<float>(_costBuilder.Build(), Allocator.TempJob),
+                    ConditionsMet = new NativeArray<bool>(_conditionBuilder.Build(), Allocator.TempJob),
                     DistanceMultiplier = agent.DistanceMultiplier
                 })
             });
@@ -81,16 +84,16 @@ namespace CrashKonijn.Goap.Classes.Runners
 
         private void FillBuilders(LocalWorldData localData, IMonoAgent agent)
         {
-            var conditionObserver = this.goapSet.GoapConfig.ConditionObserver;
+            var conditionObserver = _goapSet.GoapConfig.ConditionObserver;
             conditionObserver.SetWorldData(localData);
 
-            this.executableBuilder.Clear();
-            this.positionBuilder.Clear();
-            this.conditionBuilder.Clear();
+            _executableBuilder.Clear();
+            _positionBuilder.Clear();
+            _conditionBuilder.Clear();
 
             var transformTarget = new TransformTarget(agent.transform);
 
-            foreach (var node in this.goapSet.GetActions())
+            foreach (var node in _goapSet.GetActions())
             {
                 var allMet = true;
                 
@@ -102,21 +105,21 @@ namespace CrashKonijn.Goap.Classes.Runners
                         continue;
                     }
 
-                    this.conditionBuilder.SetConditionMet(condition, true);
+                    _conditionBuilder.SetConditionMet(condition, true);
                 }
                 
                 var target = localData.GetTarget(node);
 
-                this.executableBuilder.SetExecutable(node, allMet);
-                this.costBuilder.SetCost(node, node.GetCost(agent, agent.Injector));
+                _executableBuilder.SetExecutable(node, allMet);
+                _costBuilder.SetCost(node, node.GetCost(agent, agent.Injector));
                 
-                this.positionBuilder.SetPosition(node, target?.Position ?? transformTarget.Position);
+                _positionBuilder.SetPosition(node, target?.Position ?? transformTarget.Position);
             }
         }
 
         private bool IsGoalCompleted(LocalWorldData localData, IMonoAgent agent)
         {
-            var conditionObserver = this.goapSet.GoapConfig.ConditionObserver;
+            var conditionObserver = _goapSet.GoapConfig.ConditionObserver;
             conditionObserver.SetWorldData(localData);
             
             return agent.CurrentGoal.Conditions.All(x => conditionObserver.IsMet(x));
@@ -124,13 +127,15 @@ namespace CrashKonijn.Goap.Classes.Runners
 
         public void Complete()
         {
-            foreach (var resolveHandle in this.resolveHandles)
+            foreach (var resolveHandle in _resolveHandles)
             {
                 var result = resolveHandle.Handle.Complete().OfType<IActionBase>().ToList();
 
                 if (resolveHandle.Agent.IsNull())
+                {
                     continue;
-                
+                }
+
                 var action = result.FirstOrDefault();
                 
                 if (action is null)
@@ -145,17 +150,17 @@ namespace CrashKonijn.Goap.Classes.Runners
                 }
             }
             
-            this.resolveHandles.Clear();
+            _resolveHandles.Clear();
         }
 
         public void Dispose()
         {
-            foreach (var resolveHandle in this.resolveHandles)
+            foreach (var resolveHandle in _resolveHandles)
             {
                 resolveHandle.Handle.Complete();
             }
             
-            this.resolver.Dispose();
+            _resolver.Dispose();
         }
 
         private class JobRunHandle
@@ -165,10 +170,10 @@ namespace CrashKonijn.Goap.Classes.Runners
             
             public JobRunHandle(IMonoAgent agent)
             {
-                this.Agent = agent;
+                Agent = agent;
             }
         }
 
-        public Graph GetGraph() => this.resolver.GetGraph();
+        public Graph GetGraph() => _resolver.GetGraph();
     }
 }

@@ -8,23 +8,25 @@ namespace CrashKonijn.Goap.Resolvers
     {
         protected override string GetKey(IActionBase action, ICondition condition)
         {
-            return condition.WorldKey.Name + this.GetText(condition.Comparison);
+            return condition.WorldKey.Name + GetText(condition.Comparison);
         }
 
         protected override string GetKey(IActionBase action, IEffect effect)
         {
-            return effect.WorldKey.Name + this.GetText(effect.Increase);
+            return effect.WorldKey.Name + GetText(effect.Increase);
         }
 
         protected override string GetKey(IGoalBase action, ICondition condition)
         {
-            return condition.WorldKey.Name + this.GetText(condition.Comparison);
+            return condition.WorldKey.Name + GetText(condition.Comparison);
         }
 
         private string GetText(bool value)
         {
             if (value)
+            {
                 return "_increase";
+            }
 
             return "_decrease";
         }

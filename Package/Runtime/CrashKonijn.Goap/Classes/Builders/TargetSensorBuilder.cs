@@ -7,13 +7,13 @@ namespace CrashKonijn.Goap.Classes.Builders
 {
     public class TargetSensorBuilder
     {
-        private readonly TargetKeyBuilder targetKeyBuilder;
-        private readonly TargetSensorConfig config;
+        private readonly TargetKeyBuilder _targetKeyBuilder;
+        private readonly TargetSensorConfig _config;
 
         public TargetSensorBuilder(Type type, TargetKeyBuilder targetKeyBuilder)
         {
-            this.targetKeyBuilder = targetKeyBuilder;
-            this.config = new TargetSensorConfig()
+            _targetKeyBuilder = targetKeyBuilder;
+            _config = new TargetSensorConfig()
             {
                 Name = type.Name,
                 ClassType = type.AssemblyQualifiedName
@@ -23,14 +23,14 @@ namespace CrashKonijn.Goap.Classes.Builders
         public TargetSensorBuilder SetTarget<TTarget>()
             where TTarget : ITargetKey
         {
-            this.config.Key = this.targetKeyBuilder.GetKey<TTarget>();
+            _config.Key = _targetKeyBuilder.GetKey<TTarget>();
             
             return this;
         }
         
         public ITargetSensorConfig Build()
         {
-            return this.config;
+            return _config;
         }
 
         public static TargetSensorBuilder Create<TTargetSensor>(TargetKeyBuilder targetKeyBuilder) where TTargetSensor : ITargetSensor

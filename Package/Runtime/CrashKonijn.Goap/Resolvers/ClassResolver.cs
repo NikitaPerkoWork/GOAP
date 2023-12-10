@@ -25,8 +25,10 @@ namespace CrashKonijn.Goap.Resolvers
             where TType : class
         {
             if (string.IsNullOrEmpty(type))
+            {
                 return null;
-            
+            }
+
             return Activator.CreateInstance(Type.GetType(type)) as TType;
         }
         

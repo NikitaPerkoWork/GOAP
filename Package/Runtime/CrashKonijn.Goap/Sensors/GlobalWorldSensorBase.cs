@@ -6,10 +6,10 @@ namespace CrashKonijn.Goap.Sensors
 {
     public abstract class GlobalWorldSensorBase : IGlobalWorldSensor
     {
-        public IWorldKey Key => this.Config.Key;
+        public IWorldKey Key => Config.Key;
 
         public IWorldSensorConfig Config { get; private set; }
-        public void SetConfig(IWorldSensorConfig config) => this.Config = config;
+        public void SetConfig(IWorldSensorConfig config) => Config = config;
 
         public abstract void Created();
         public abstract SenseValue Sense();

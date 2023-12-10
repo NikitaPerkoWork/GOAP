@@ -9,7 +9,9 @@ namespace CrashKonijn.Goap.Classes.Builders
         protected override void InjectData(IWorldKey key)
         {
             if (key is WorldKeyBase worldKey)
+            {
                 worldKey.Name = key.GetType().GetGenericTypeName();
+            }
         }
     }
 }

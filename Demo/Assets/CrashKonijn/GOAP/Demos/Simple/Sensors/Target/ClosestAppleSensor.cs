@@ -22,7 +22,7 @@ namespace Demos.Simple.Sensors.Target
 
         public override ITarget Sense(IMonoAgent agent, IComponentReference references)
         {
-            var closestApple = this.apples.Get().Closest(agent.transform.position);
+            var closestApple = this.apples.Get().Closest(agent.Transform.position);
 
             if (closestApple is null)
                 return null;

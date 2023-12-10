@@ -12,14 +12,14 @@ namespace CrashKonijn.Goap.Scriptables
 
         public WorldKeyScriptable key;
 
-        public string Name => this.name;
+        public string Name => name;
 
         public string ClassType
         {
-            get => this.classType;
-            set => this.classType = value;
+            get => classType;
+            set => classType = value;
         }
 
-        public IWorldKey Key => this.key;
+        public IWorldKey Key => key;
     }
 }

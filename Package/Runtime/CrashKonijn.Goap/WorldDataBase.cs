@@ -13,20 +13,26 @@ namespace CrashKonijn.Goap
         public ITarget GetTarget(IActionBase action)
         {
             if (action.Config.Target == null)
+            {
                 return null;
-            
-            if (!this.Targets.ContainsKey(action.Config.Target))
+            }
+
+            if (!Targets.ContainsKey(action.Config.Target))
+            {
                 return null;
-            
-            return this.Targets[action.Config.Target];
+            }
+
+            return Targets[action.Config.Target];
         }
 
         public bool IsTrue(IWorldKey worldKey, Comparison comparison, int value)
         {
-            if (!this.States.ContainsKey(worldKey))
+            if (!States.ContainsKey(worldKey))
+            {
                 return false;
-            
-            var state = this.States[worldKey];
+            }
+
+            var state = States[worldKey];
 
             switch (comparison)
             {
@@ -46,29 +52,33 @@ namespace CrashKonijn.Goap
         public void SetState(IWorldKey key, int state)
         {
             if (key == null)
-                return;
-            
-            if (this.States.ContainsKey(key))
             {
-                this.States[key] = state;
+                return;
+            }
+
+            if (States.ContainsKey(key))
+            {
+                States[key] = state;
                 return;
             }
             
-            this.States.Add(key, state);
+            States.Add(key, state);
         }
         
         public void SetTarget(ITargetKey key, ITarget target)
         {
             if (key == null)
-                return;
-            
-            if (this.Targets.ContainsKey(key))
             {
-                this.Targets[key] = target;
+                return;
+            }
+
+            if (Targets.ContainsKey(key))
+            {
+                Targets[key] = target;
                 return;
             }
             
-            this.Targets.Add(key, target);
+            Targets.Add(key, target);
         }
     }
 }

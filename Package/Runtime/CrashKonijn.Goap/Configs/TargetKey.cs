@@ -6,7 +6,7 @@ namespace CrashKonijn.Goap.Configs
     {
         public TargetKey(string name)
         {
-            this.Name = name;
+            Name = name;
         }
         
         public string Name { get; }

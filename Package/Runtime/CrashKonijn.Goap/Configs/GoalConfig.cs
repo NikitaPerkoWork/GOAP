@@ -10,8 +10,8 @@ namespace CrashKonijn.Goap.Configs
     {
         public GoalConfig(Type type)
         {
-            this.Name = type.Name;
-            this.ClassType = type.AssemblyQualifiedName;
+            Name = type.Name;
+            ClassType = type.AssemblyQualifiedName;
         }
 
         public string Name { get; }

@@ -17,8 +17,10 @@ namespace CrashKonijn.Goap.Classes.Validators
             var missing = required.Except(provided).ToHashSet();
             
             if (!missing.Any())
+            {
                 return;
-            
+            }
+
             results.AddWarning($"TargetKeys without sensors: {string.Join(", ", missing.Select(x => x.Name))}");
         }
     }

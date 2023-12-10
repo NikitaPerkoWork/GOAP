@@ -53,7 +53,7 @@ namespace Demos.Complex.Actions
         {
             var pos = Random.insideUnitCircle.normalized * Random.Range(1f, 2f);
 
-            return agent.transform.position + new Vector3(pos.x, 0f, pos.y);
+            return agent.Transform.position + new Vector3(pos.x, 0f, pos.y);
         }
         
         public class Data : IActionData

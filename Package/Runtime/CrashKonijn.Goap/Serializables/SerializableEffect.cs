@@ -11,7 +11,7 @@ namespace CrashKonijn.Goap.Serializables
     {
         public WorldKeyScriptable worldKey;
 
-        public IWorldKey WorldKey => this.worldKey;
+        public IWorldKey WorldKey => worldKey;
         
         [field:SerializeField]
         public bool Increase { get; set; }

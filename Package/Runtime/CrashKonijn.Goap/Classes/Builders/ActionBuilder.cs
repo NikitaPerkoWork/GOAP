@@ -10,18 +10,18 @@ namespace CrashKonijn.Goap.Classes.Builders
 {
     public class ActionBuilder
     {
-        private readonly ActionConfig config;
-        private readonly List<ICondition> conditions = new();
-        private readonly List<IEffect> effects = new();
-        private readonly WorldKeyBuilder worldKeyBuilder;
-        private readonly TargetKeyBuilder targetKeyBuilder;
+        private readonly ActionConfig _config;
+        private readonly List<ICondition> _conditions = new();
+        private readonly List<IEffect> _effects = new();
+        private readonly WorldKeyBuilder _worldKeyBuilder;
+        private readonly TargetKeyBuilder _targetKeyBuilder;
 
         public ActionBuilder(Type actionType, WorldKeyBuilder worldKeyBuilder, TargetKeyBuilder targetKeyBuilder)
         {
-            this.worldKeyBuilder = worldKeyBuilder;
-            this.targetKeyBuilder = targetKeyBuilder;
+            _worldKeyBuilder = worldKeyBuilder;
+            _targetKeyBuilder = targetKeyBuilder;
             
-            this.config = new ActionConfig
+            _config = new ActionConfig
             {
                 Name = actionType.Name,
                 ClassType = actionType.AssemblyQualifiedName,
@@ -33,34 +33,34 @@ namespace CrashKonijn.Goap.Classes.Builders
         public ActionBuilder SetTarget<TTargetKey>()
             where TTargetKey : ITargetKey
         {
-            this.config.Target = this.targetKeyBuilder.GetKey<TTargetKey>();
+            _config.Target = _targetKeyBuilder.GetKey<TTargetKey>();
             return this;
         }
 
         public ActionBuilder SetBaseCost(int baseCost)
         {
-            this.config.BaseCost = baseCost;
+            _config.BaseCost = baseCost;
             return this;
         }
         
         public ActionBuilder SetInRange(float inRange)
         {
-            this.config.InRange = inRange;
+            _config.InRange = inRange;
             return this;
         }
         
         public ActionBuilder SetMoveMode(ActionMoveMode moveMode)
         {
-            this.config.MoveMode = moveMode;
+            _config.MoveMode = moveMode;
             return this;
         }
 
         public ActionBuilder AddCondition<TWorldKey>(Comparison comparison, int amount)
             where TWorldKey : IWorldKey
         {
-            this.conditions.Add(new Condition
+            _conditions.Add(new Condition
             {
-                WorldKey = this.worldKeyBuilder.GetKey<TWorldKey>(),
+                WorldKey = _worldKeyBuilder.GetKey<TWorldKey>(),
                 Comparison = comparison,
                 Amount = amount,
             });
@@ -72,9 +72,9 @@ namespace CrashKonijn.Goap.Classes.Builders
         public ActionBuilder AddEffect<TWorldKey>(bool increase)
             where TWorldKey : IWorldKey
         {
-            this.effects.Add(new Effect
+            _effects.Add(new Effect
             {
-                WorldKey = this.worldKeyBuilder.GetKey<TWorldKey>(),
+                WorldKey = _worldKeyBuilder.GetKey<TWorldKey>(),
                 Increase = increase
             });
             
@@ -84,9 +84,9 @@ namespace CrashKonijn.Goap.Classes.Builders
         public ActionBuilder AddEffect<TWorldKey>(EffectType type)
             where TWorldKey : IWorldKey
         {
-            this.effects.Add(new Effect
+            _effects.Add(new Effect
             {
-                WorldKey = this.worldKeyBuilder.GetKey<TWorldKey>(),
+                WorldKey = _worldKeyBuilder.GetKey<TWorldKey>(),
                 Increase = type == EffectType.Increase
             });
             
@@ -95,10 +95,9 @@ namespace CrashKonijn.Goap.Classes.Builders
 
         public IActionConfig Build()
         {
-            this.config.Conditions = this.conditions.ToArray();
-            this.config.Effects = this.effects.ToArray();
-            
-            return this.config;
+            _config.Conditions = _conditions.ToArray();
+            _config.Effects = _effects.ToArray();
+            return _config;
         }
         
         public static ActionBuilder Create<TAction>(WorldKeyBuilder worldKeyBuilder, TargetKeyBuilder targetKeyBuilder)

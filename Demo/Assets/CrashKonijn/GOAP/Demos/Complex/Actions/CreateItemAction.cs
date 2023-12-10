@@ -15,13 +15,13 @@ namespace Demos.Complex.Actions
     public class CreateItemAction<TCreatable> : ActionBase<CreateItemAction<TCreatable>.Data>, IInjectable
         where TCreatable : ItemBase, ICreatable
     {
-        private ItemFactory itemFactory;
-        private InstanceHandler instanceHandler;
+        private ItemFactory _itemFactory;
+        private InstanceHandler _instanceHandler;
 
         public void Inject(GoapInjector injector)
         {
-            this.itemFactory = injector.itemFactory;
-            this.instanceHandler = injector.instanceHandler;
+            _itemFactory = injector.itemFactory;
+            _instanceHandler = injector.instanceHandler;
         }
 
         public override void Created()
@@ -31,8 +31,8 @@ namespace Demos.Complex.Actions
         public override void Start(IMonoAgent agent, Data data)
         {
             data.Timer = 5f;
-            data.RequiredWood = this.GetRequiredWood();
-            data.RequiredIron = this.GetRequiredIron();
+            data.RequiredWood = GetRequiredWood();
+            data.RequiredIron = GetRequiredIron();
         }
 
         public override ActionRunState Perform(IMonoAgent agent, Data data, ActionContext context)
@@ -40,7 +40,7 @@ namespace Demos.Complex.Actions
             if (data.State == State.NotStarted)
             {
                 data.State = State.Started;
-                this.RemoveRequiredResources(data);
+                RemoveRequiredResources(data);
             }
             
             data.Timer -= context.DeltaTime;
@@ -48,8 +48,8 @@ namespace Demos.Complex.Actions
             if (data.Timer > 0)
                 return ActionRunState.Continue;
             
-            var item = this.itemFactory.Instantiate<TCreatable>();
-            item.transform.position = this.GetRandomPosition(agent);
+            var item = _itemFactory.Instantiate<TCreatable>();
+            item.transform.position = GetRandomPosition(agent);
             
             return ActionRunState.Stop;
         }
@@ -64,25 +64,25 @@ namespace Demos.Complex.Actions
             {
                 var iron = data.Inventory.Get<Iron>().FirstOrDefault();
                 data.Inventory.Remove(iron);
-                this.instanceHandler.QueueForDestroy(iron);
+                _instanceHandler.QueueForDestroy(iron);
             }
             
             for (var j = 0; j < data.RequiredWood; j++)
             {
                 var wood = data.Inventory.Get<Wood>().FirstOrDefault();
                 data.Inventory.Remove(wood);
-                this.instanceHandler.QueueForDestroy(wood);
+                _instanceHandler.QueueForDestroy(wood);
             }
         }
 
         private int GetRequiredWood()
         {
-            return this.Config.Conditions.FirstOrDefault(x => x.WorldKey.Name == "IsHolding<Wood>")!.Amount;
+            return Config.Conditions.FirstOrDefault(x => x.WorldKey.Name == "IsHolding<Wood>")!.Amount;
         }
 
         private int GetRequiredIron()
         {
-            return this.Config.Conditions.FirstOrDefault(x => x.WorldKey.Name == "IsHolding<Iron>")!.Amount;
+            return Config.Conditions.FirstOrDefault(x => x.WorldKey.Name == "IsHolding<Iron>")!.Amount;
         }
         
         private Vector3 GetRandomPosition(IMonoAgent agent)

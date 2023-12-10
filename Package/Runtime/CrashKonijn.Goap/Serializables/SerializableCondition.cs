@@ -12,7 +12,7 @@ namespace CrashKonijn.Goap.Serializables
     {
         public WorldKeyScriptable worldKey;
 
-        public IWorldKey WorldKey => this.worldKey;
+        public IWorldKey WorldKey => worldKey;
         
         [field:SerializeField]
         public Comparison Comparison { get; set; }

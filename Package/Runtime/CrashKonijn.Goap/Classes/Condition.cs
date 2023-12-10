@@ -16,9 +16,9 @@ namespace CrashKonijn.Goap.Classes
 
         public Condition(IWorldKey worldKey, Comparison comparison, int amount)
         {
-            this.WorldKey = worldKey;
-            this.Comparison = comparison;
-            this.Amount = amount;
+            WorldKey = worldKey;
+            Comparison = comparison;
+            Amount = amount;
         }
     }
 }

@@ -16,20 +16,20 @@ namespace CrashKonijn.Goap.Scriptables
         public int baseCost = 1;
         public List<SerializableCondition> conditions;
 
-        public string Name => this.name;
+        public string Name => name;
 
-        public List<ICondition> Conditions => this.conditions.Cast<ICondition>().ToList();
+        public List<ICondition> Conditions => conditions.Cast<ICondition>().ToList();
 
         public int BaseCost
         {
-            get => this.baseCost;
-            set => this.baseCost = value;
+            get => baseCost;
+            set => baseCost = value;
         }
 
         public string ClassType
         {
-            get => this.classType;
-            set => this.classType = value;
+            get => classType;
+            set => classType = value;
         }
     }
 }

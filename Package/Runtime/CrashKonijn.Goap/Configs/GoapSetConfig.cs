@@ -7,7 +7,7 @@ namespace CrashKonijn.Goap.Configs
     {
         public GoapSetConfig(string name)
         {
-            this.Name = name;
+            Name = name;
         }
         
         public string Name { get; }

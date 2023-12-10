@@ -25,7 +25,7 @@ namespace Demos.Complex.Sensors.Target
 
         public override ITarget Sense(IMonoAgent agent, IComponentReference references)
         {
-            var closest = this.collection.Closest(agent.transform.position);
+            var closest = this.collection.Closest(agent.Transform.position);
             
             if (closest == null)
                 return null;

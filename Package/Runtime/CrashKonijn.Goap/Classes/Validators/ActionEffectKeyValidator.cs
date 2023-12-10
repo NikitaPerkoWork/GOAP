@@ -13,8 +13,10 @@ namespace CrashKonijn.Goap.Classes.Validators
                 var missing = configAction.Effects.Where(x => x.WorldKey == null).ToArray();
                 
                 if (!missing.Any())
+                {
                     continue;
-                
+                }
+
                 results.AddError($"Action {configAction.Name} has effects without WorldKey");
             }
         }

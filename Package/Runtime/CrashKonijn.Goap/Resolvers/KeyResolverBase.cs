@@ -10,22 +10,27 @@ namespace CrashKonijn.Goap.Resolvers
 
         public void SetWorldData(IWorldData globalWorldData)
         {
-            this.WorldData = globalWorldData;
+            WorldData = globalWorldData;
         }
         
         public string GetKey(IAction action, Resolver.Interfaces.ICondition condition)
         {
             if (action is IActionBase tAction)
-                return this.GetKey(tAction, (ICondition) condition);
+            {
+                return GetKey(tAction, (ICondition) condition);
+            }
+
             if (action is IGoalBase tGoal)
-                return this.GetKey(tGoal, (ICondition) condition);
+            {
+                return GetKey(tGoal, (ICondition) condition);
+            }
 
             throw new Exception($"Unsupported type {action.GetType()}");
         }
 
         public string GetKey(IAction action, Resolver.Interfaces.IEffect effect)
         {
-            return this.GetKey((IActionBase) action, (IEffect) effect);
+            return GetKey((IActionBase) action, (IEffect) effect);
         }
 
         protected abstract string GetKey(IActionBase action, ICondition key);

@@ -13,8 +13,10 @@ namespace CrashKonijn.Goap.Classes.Validators
                 var missing = configGoal.Conditions.Where(x => x.WorldKey == null).ToArray();
                 
                 if (!missing.Any())
+                {
                     continue;
-                
+                }
+
                 results.AddError($"Goal {configGoal.Name} has conditions without WorldKey");
             }
         }

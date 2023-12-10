@@ -8,14 +8,14 @@ namespace CrashKonijn.Goap.Configs
     {
         public WorldSensorConfig()
         {
-            this.Name = typeof(TSensor).Name;
-            this.ClassType = typeof(TSensor).AssemblyQualifiedName;
+            Name = typeof(TSensor).Name;
+            ClassType = typeof(TSensor).AssemblyQualifiedName;
         }
         
         public WorldSensorConfig(string name)
         {
-            this.Name = name;
-            this.ClassType = typeof(TSensor).AssemblyQualifiedName;
+            Name = name;
+            ClassType = typeof(TSensor).AssemblyQualifiedName;
         }
     }
     

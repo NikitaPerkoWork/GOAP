@@ -11,8 +11,10 @@ namespace CrashKonijn.Goap.Classes.Validators
             var missing = goapSetConfig.Goals.Where(x => !x.Conditions.Any()).ToArray();
             
             if (!missing.Any())
+            {
                 return;
-            
+            }
+
             results.AddWarning($"Goals without Conditions: {string.Join(", ", missing.Select(x => x.Name))}");
         }
     }

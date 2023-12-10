@@ -6,7 +6,7 @@ namespace CrashKonijn.Goap.Classes.Validators
 {
     public class GoapSetConfigValidatorRunner : IGoapSetConfigValidatorRunner
     {
-        private readonly List<IValidator<IGoapSetConfig>> validators = new ()
+        private readonly List<IValidator<IGoapSetConfig>> _validators = new ()
         {
             new WorldKeySensorsValidator(),
             new TargetKeySensorsValidator(),
@@ -29,7 +29,7 @@ namespace CrashKonijn.Goap.Classes.Validators
         {
             var results = new ValidationResults(goapSetConfig.Name);
             
-            foreach (var validator in this.validators)
+            foreach (var validator in _validators)
             {
                 validator.Validate(goapSetConfig, results);
             }

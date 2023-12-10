@@ -8,12 +8,12 @@ namespace CrashKonijn.Goap
         {
             foreach (var (key, value) in globalWorldData.States)
             {
-                this.SetState(key, value);
+                SetState(key, value);
             }
             
             foreach (var (key, value) in globalWorldData.Targets)
             {
-                this.SetTarget(key, value);
+                SetTarget(key, value);
             }
         }
     }

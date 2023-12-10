@@ -31,15 +31,15 @@ namespace CrashKonijn.Goap.Scriptables
         
         public string ClassType
         {
-            get => this.actionClass;
-            set => this.actionClass = value;
+            get => actionClass;
+            set => actionClass = value;
         }
 
-        public ITargetKey Target => this.target;
+        public ITargetKey Target => target;
 
-        public ICondition[] Conditions => this.conditions.ToArray();
-        public IEffect[] Effects => this.effects.ToArray();
+        public ICondition[] Conditions => conditions.ToArray();
+        public IEffect[] Effects => effects.ToArray();
 
-        public string Name => this.name;
+        public string Name => name;
     }
 }

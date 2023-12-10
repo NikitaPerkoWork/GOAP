@@ -1,5 +1,4 @@
-﻿using CrashKonijn.Goap.Configs;
-using CrashKonijn.Goap.Configs.Interfaces;
+﻿using CrashKonijn.Goap.Configs.Interfaces;
 
 namespace CrashKonijn.Goap.Interfaces
 {

@@ -13,12 +13,12 @@ namespace CrashKonijn.Goap.Observers
 
         public void SetWorldData(IWorldData worldData)
         {
-            this.WorldData = worldData;
+            WorldData = worldData;
         }
         
         public bool IsMet(Resolver.Interfaces.ICondition condition)
         {
-            return this.IsMet((ICondition)condition);
+            return IsMet((ICondition)condition);
         }
 
         public abstract bool IsMet(ICondition condition);

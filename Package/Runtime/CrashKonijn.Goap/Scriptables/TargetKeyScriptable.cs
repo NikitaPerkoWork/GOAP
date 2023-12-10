@@ -7,6 +7,6 @@ namespace CrashKonijn.Goap.Scriptables
     [CreateAssetMenu(menuName = "Goap/TargetKey")]
     public class TargetKeyScriptable : ScriptableObject, ITargetKey, IEffect, ICondition
     {
-        public string Name => this.name;
+        public string Name => name;
     }
 }

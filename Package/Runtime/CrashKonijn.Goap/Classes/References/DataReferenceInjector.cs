@@ -9,26 +9,28 @@ namespace CrashKonijn.Goap.Classes.References
 {
     public class DataReferenceInjector : IDataReferenceInjector
     {
-        private readonly IMonoAgent agent;
-        private readonly Dictionary<Type, object> references = new();
+        private readonly IMonoAgent _agent;
+        private readonly Dictionary<Type, object> _references = new();
 
         public DataReferenceInjector(IMonoAgent agent)
         {
-            this.agent = agent;
+            _agent = agent;
         }
-        
+
         public void Inject(IActionData data)
         {
             var type = data.GetType();
-            
+
             // find all properties with the GetComponent attribute
             var properties = type.GetProperties();
             foreach (var property in properties)
             {
-                var value = this.GetPropertyValue(property);
-                
+                var value = GetPropertyValue(property);
+
                 if (value == null)
+                {
                     continue;
+                }
 
                 // set the reference
                 property.SetValue(data, value);
@@ -38,75 +40,74 @@ namespace CrashKonijn.Goap.Classes.References
         private object GetPropertyValue(PropertyInfo property)
         {
             if (property.GetCustomAttributes(typeof(GetComponentAttribute), true).Any())
-                return this.GetCachedComponentReference(property.PropertyType);
-            
+            {
+                return GetCachedComponentReference(property.PropertyType);
+            }
+
             if (property.GetCustomAttributes(typeof(GetComponentInChildrenAttribute), true).Any())
-                return this.GetCachedComponentInChildrenReference(property.PropertyType);
-            
+            {
+                return GetCachedComponentInChildrenReference(property.PropertyType);
+            }
+
             if (property.GetCustomAttributes(typeof(GetComponentInParentAttribute), true).Any())
-                return this.GetCachedComponentInParentReference(property.PropertyType);
-            
+            {
+                return GetCachedComponentInParentReference(property.PropertyType);
+            }
+
             return null;
         }
 
         private object GetCachedComponentReference(Type type)
         {
             // check if we have a reference for this type
-            if (!this.references.ContainsKey(type))
-                this.references.Add(type, this.agent.GetComponent(type));
-                
+            if (!_references.ContainsKey(type))
+            {
+                _references.Add(type, _agent.GetComponent(type));
+            }
+
             // get the reference
-            return this.references[type];
+            return _references[type];
         }
 
-        [System.Obsolete("'GetComponent<T>' is deprecated, please use 'GetCachedComponent<T>' instead.   Exact same functionality, name changed to better communicate code usage.")]
-        public T GetComponent<T>()
-            where T : MonoBehaviour
-        {
-            return (T) this.GetCachedComponentReference(typeof(T));
-        }
-        
         public T GetCachedComponent<T>()
             where T : MonoBehaviour
         {
-            return (T)this.GetCachedComponentReference(typeof(T));
+            return (T)GetCachedComponentReference(typeof(T));
         }
 
         private object GetCachedComponentInChildrenReference(Type type)
         {
             // check if we have a reference for this type
-            if (!this.references.ContainsKey(type))
-                this.references.Add(type, this.agent.GetComponentInChildren(type));
-                
+            if (!_references.ContainsKey(type))
+            {
+                _references.Add(type, _agent.GetComponentInChildren(type));
+            }
+
             // get the reference
-            return this.references[type];
+            return _references[type];
         }
 
-        [System.Obsolete("'GetComponentInChildren<T>' is deprecated, please use 'GetCachedComponentInChildren<T>' instead.   Exact same functionality, name changed to better communicate code usage.")]
-        public T GetComponentInChildren<T>()
-            where T : MonoBehaviour
-        {
-            return (T) this.GetCachedComponentInChildrenReference(typeof(T));
-        }
         public T GetCachedComponentInChildren<T>()
             where T : MonoBehaviour
         {
-            return (T)this.GetCachedComponentInChildrenReference(typeof(T));
+            return (T)GetCachedComponentInChildrenReference(typeof(T));
         }
 
         private object GetCachedComponentInParentReference(Type type)
         {
             // check if we have a reference for this type
-            if (!this.references.ContainsKey(type))
-                this.references.Add(type, this.agent.GetComponentInParent(type));
-                
+            if (!_references.ContainsKey(type))
+            {
+                _references.Add(type, _agent.GetComponentInParent(type));
+            }
+
             // get the reference
-            return this.references[type];
+            return _references[type];
         }
 
         public T GetCachedComponentInParent<T>() where T : MonoBehaviour
         {
-            return (T)this.GetCachedComponentInParentReference(typeof(T));
+            return (T)GetCachedComponentInParentReference(typeof(T));
         }
     }
 }

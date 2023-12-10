@@ -11,16 +11,18 @@ namespace CrashKonijn.Goap.Classes
         {
             get
             {
-               if (this.Transform == null)
+               if (Transform == null)
+               {
                    return Vector3.zero;
+               }
 
-               return this.Transform.position;
+               return Transform.position;
             }
         }
 
         public TransformTarget(Transform transform)
         {
-            this.Transform = transform;
+            Transform = transform;
         }
     }
 }

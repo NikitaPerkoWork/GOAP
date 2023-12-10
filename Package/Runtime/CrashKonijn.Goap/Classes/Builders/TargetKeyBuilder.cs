@@ -9,7 +9,9 @@ namespace CrashKonijn.Goap.Classes.Builders
         protected override void InjectData(ITargetKey key)
         {
             if (key is TargetKeyBase targetKey)
+            {
                 targetKey.Name = key.GetType().GetGenericTypeName();
+            }
         }
     }
 }

@@ -1,37 +1,37 @@
-﻿using CrashKonijn.Goap.Behaviours;
+﻿using System;
 
 namespace CrashKonijn.Goap.Interfaces
 {
     public interface IAgentEvents
     {
         // Actions
-        event ActionDelegate OnActionStart;
+        event  Action<IActionBase> OnActionStart;
         void ActionStart(IActionBase action);
         
-        event ActionDelegate OnActionStop;
+        event  Action<IActionBase> OnActionStop;
         void ActionStop(IActionBase action);
         
-        event GoalDelegate OnNoActionFound;
+        event Action<IGoalBase> OnNoActionFound;
         void NoActionFound(IGoalBase goal);
         
         // Goals
-        event GoalDelegate OnGoalStart;
+        event Action<IGoalBase> OnGoalStart;
         void GoalStart(IGoalBase goal);
         
-        event GoalDelegate OnGoalCompleted;
+        event Action<IGoalBase> OnGoalCompleted;
         void GoalCompleted(IGoalBase goal);
         
         // Targets
-        event TargetDelegate OnTargetInRange;
+        event Action<ITarget> OnTargetInRange;
         void TargetInRange(ITarget target);
         
-        event TargetDelegate OnTargetOutOfRange;
+        event Action<ITarget> OnTargetOutOfRange;
         void TargetOutOfRange(ITarget target);
         
-        event TargetRangeDelegate OnTargetChanged;
+        event Action<ITarget, bool> OnTargetChanged;
         void TargetChanged(ITarget target, bool inRange);
 
-        event TargetDelegate OnMove;
+        event Action<ITarget> OnMove;
         void Move(ITarget target);
     }
 }

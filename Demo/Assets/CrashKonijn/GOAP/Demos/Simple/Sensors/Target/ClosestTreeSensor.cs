@@ -23,7 +23,7 @@ namespace Demos.Simple.Sensors.Target
 
         public override ITarget Sense(IMonoAgent agent, IComponentReference references)
         {
-            return new TransformTarget(this.trees.Closest(agent.transform.position).transform);
+            return new TransformTarget(this.trees.Closest(agent.Transform.position).transform);
         }
     }
 }

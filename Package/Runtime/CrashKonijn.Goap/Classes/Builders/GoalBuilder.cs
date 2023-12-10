@@ -9,14 +9,14 @@ namespace CrashKonijn.Goap.Classes.Builders
 {
     public class GoalBuilder
     {
-        private readonly GoalConfig config;
-        private readonly List<ICondition> conditions = new();
-        private readonly WorldKeyBuilder worldKeyBuilder;
+        private readonly GoalConfig _config;
+        private readonly List<ICondition> _conditions = new();
+        private readonly WorldKeyBuilder _worldKeyBuilder;
 
         public GoalBuilder(Type type, WorldKeyBuilder worldKeyBuilder)
         {
-            this.worldKeyBuilder = worldKeyBuilder;
-            this.config = new GoalConfig(type)
+            _worldKeyBuilder = worldKeyBuilder;
+            _config = new GoalConfig(type)
             {
                 BaseCost = 1,
                 ClassType = type.AssemblyQualifiedName
@@ -25,21 +25,21 @@ namespace CrashKonijn.Goap.Classes.Builders
         
         public GoalBuilder SetBaseCost(int baseCost)
         {
-            this.config.BaseCost = baseCost;
+            _config.BaseCost = baseCost;
             return this;
         }
         
         public GoalBuilder AddCondition<TWorldKey>(Comparison comparison, int amount)
             where TWorldKey : IWorldKey
         {
-            this.conditions.Add(new Condition(this.worldKeyBuilder.GetKey<TWorldKey>(), comparison, amount));
+            _conditions.Add(new Condition(_worldKeyBuilder.GetKey<TWorldKey>(), comparison, amount));
             return this;
         }
         
         public IGoalConfig Build()
         {
-            this.config.Conditions = this.conditions;
-            return this.config;
+            _config.Conditions = _conditions;
+            return _config;
         }
         
         public static GoalBuilder Create<TGoal>(WorldKeyBuilder worldKeyBuilder)

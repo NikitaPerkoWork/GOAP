@@ -11,8 +11,10 @@ namespace CrashKonijn.Goap.Classes.Validators
             var empty = goapSetConfig.WorldSensors.Where(x => string.IsNullOrEmpty(x.ClassType)).ToArray();
             
             if (!empty.Any())
+            {
                 return;
-            
+            }
+
             results.AddError($"World Sensors without ClassType: {string.Join(", ", empty.Select(x => x.Name))}");
         }
     }

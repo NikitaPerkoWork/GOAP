@@ -1,64 +1,65 @@
-﻿using CrashKonijn.Goap.Interfaces;
+﻿using System;
+using CrashKonijn.Goap.Interfaces;
 
 namespace CrashKonijn.Goap.Behaviours
 {
     public class AgentEvents : IAgentEvents
     {
         // Actions
-        public event ActionDelegate OnActionStart;
+        public event Action<IActionBase> OnActionStart;
         public void ActionStart(IActionBase action)
         {
-            this.OnActionStart?.Invoke(action);
+            OnActionStart?.Invoke(action);
         }
         
-        public event ActionDelegate OnActionStop;
+        public event Action<IActionBase> OnActionStop;
         public void ActionStop(IActionBase action)
         {
-            this.OnActionStop?.Invoke(action);
+            OnActionStop?.Invoke(action);
         }
 
-        public event GoalDelegate OnNoActionFound;
+        public event Action<IGoalBase> OnNoActionFound;
         public void NoActionFound(IGoalBase goal)
         {
-            this.OnNoActionFound?.Invoke(goal);
+            OnNoActionFound?.Invoke(goal);
         }
         
         // Goals
-        public event GoalDelegate OnGoalStart;
+        public event Action<IGoalBase> OnGoalStart;
         public void GoalStart(IGoalBase goal)
         {
-            this.OnGoalStart?.Invoke(goal);
+            OnGoalStart?.Invoke(goal);
         }
 
-        public event GoalDelegate OnGoalCompleted;
+        public event Action<IGoalBase> OnGoalCompleted;
         public void GoalCompleted(IGoalBase goal)
         {
-            this.OnGoalCompleted?.Invoke(goal);
+            OnGoalCompleted?.Invoke(goal);
         }
 
         // Targets
-        public event TargetDelegate OnTargetInRange;
+        public event Action<ITarget> OnTargetInRange;
         public void TargetInRange(ITarget target)
         {
-            this.OnTargetInRange?.Invoke(target);
+            OnTargetInRange?.Invoke(target);
         }
 
-        public event TargetDelegate OnTargetOutOfRange;
+        public event Action<ITarget> OnTargetOutOfRange;
         public void TargetOutOfRange(ITarget target)
         {
-            this.OnTargetOutOfRange?.Invoke(target);
+            OnTargetOutOfRange?.Invoke(target);
         }
 
-        public event TargetRangeDelegate OnTargetChanged;
+        public event Action<ITarget,bool> OnTargetChanged;
         public void TargetChanged(ITarget target, bool inRange)
         {
-            this.OnTargetChanged?.Invoke(target, inRange);
+            OnTargetChanged?.Invoke(target, inRange);
         }
 
-        public event TargetDelegate OnMove;
+        public event Action<ITarget> OnMove;
         public void Move(ITarget target)
         {
-            this.OnMove?.Invoke(target);
+            OnMove?.Invoke(target);
         }
     }
 }

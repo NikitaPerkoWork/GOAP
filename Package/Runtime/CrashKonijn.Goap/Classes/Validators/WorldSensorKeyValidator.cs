@@ -11,8 +11,10 @@ namespace CrashKonijn.Goap.Classes.Validators
             var missing = goapSetConfig.WorldSensors.Where(x => x.Key == null).ToArray();
             
             if (!missing.Any())
+            {
                 return;
-            
+            }
+
             results.AddError($"WorldSensors without Key: {string.Join(", ", missing.Select(x => x.Name))}");
         }
     }

@@ -18,13 +18,13 @@ namespace CrashKonijn.Goap.Behaviours
         public AgentState State { get; private set; } = AgentState.NoAction;
         public AgentMoveState MoveState { get; set; } = AgentMoveState.Idle;
 
-        private IGoapSet goapSet;
+        private IGoapSet _goapSet;
         public IGoapSet GoapSet
         {
-            get => this.goapSet;
+            get => _goapSet;
             set
             {
-                this.goapSet = value;
+                _goapSet = value;
                 value.Register(this);
             }
         }
@@ -38,207 +38,232 @@ namespace CrashKonijn.Goap.Behaviours
         public IDataReferenceInjector Injector { get; private set; }
         public IAgentDistanceObserver DistanceObserver { get; set; } = new VectorDistanceObserver();
 
-        private ITarget currentTarget;
+        private ITarget _currentTarget;
+        private IMonoAgent _monoAgentImplementation;
 
         private void Awake()
         {
-            this.Injector = new DataReferenceInjector(this);
+            Injector = new DataReferenceInjector(this);
             
-            if (this.goapSetBehaviour != null)
-                this.GoapSet = this.goapSetBehaviour.GoapSet;
+            if (goapSetBehaviour != null)
+            {
+                GoapSet = goapSetBehaviour.GoapSet;
+            }
         }
 
         private void Start()
         {
-            if (this.GoapSet == null)
-                throw new GoapException($"There is no GoapSet assigned to the agent '{this.name}'! Please assign one in the inspector or through code in the Awake method.");
+            if (GoapSet == null)
+            {
+                throw new GoapException($"There is no GoapSet assigned to the agent '{name}'! Please assign one in the inspector or through code in the Awake method.");
+            }
         }
 
         private void OnEnable()
         {
-            if (this.GoapSet != null)
-                this.GoapSet.Register(this);
+            if (GoapSet != null)
+            {
+                GoapSet.Register(this);
+            }
         }
 
         private void OnDisable()
         {
-            this.EndAction(false);
+            EndAction(false);
             
-            if (this.GoapSet != null)
-                this.GoapSet.Unregister(this);
+            if (GoapSet != null)
+            {
+                GoapSet.Unregister(this);
+            }
         }
 
         public void Run()
         {
-            if (this.CurrentAction == null)
+            if (CurrentAction == null)
             {
-                this.State = AgentState.NoAction;
+                State = AgentState.NoAction;
                 return;
             }
             
-            this.UpdateTarget();
+            UpdateTarget();
 
-            switch (this.CurrentAction.Config.MoveMode)
+            switch (CurrentAction.Config.MoveMode)
             {
                 case ActionMoveMode.MoveBeforePerforming:
-                    this.RunMoveBeforePerforming();
+                    RunMoveBeforePerforming();
                     break;
                 case ActionMoveMode.PerformWhileMoving:
-                    this.RunPerformWhileMoving();
+                    RunPerformWhileMoving();
                     break;
             }
         }
 
         private void RunPerformWhileMoving()
         {
-            if (this.IsInRange())
+            if (IsInRange())
             {
-                this.State = AgentState.PerformingAction;
-                this.SetMoveState(AgentMoveState.InRange);
-                this.PerformAction();
+                State = AgentState.PerformingAction;
+                SetMoveState(AgentMoveState.InRange);
+                PerformAction();
                 return;
             }
                 
-            this.State = AgentState.MovingWhilePerformingAction;
-            this.SetMoveState(AgentMoveState.OutOfRange);
-            this.Move();
-            this.PerformAction();
+            State = AgentState.MovingWhilePerformingAction;
+            SetMoveState(AgentMoveState.OutOfRange);
+            Move();
+            PerformAction();
         }
 
         private void RunMoveBeforePerforming()
         {
-            if (this.IsInRange())
+            if (IsInRange())
             {
-                this.State = AgentState.PerformingAction;
-                this.SetMoveState(AgentMoveState.InRange);
-                this.PerformAction();
+                State = AgentState.PerformingAction;
+                SetMoveState(AgentMoveState.InRange);
+                PerformAction();
                 return;
             }
 
-            this.State = AgentState.MovingToTarget;
-            this.SetMoveState(AgentMoveState.OutOfRange);
-            this.Move();
+            State = AgentState.MovingToTarget;
+            SetMoveState(AgentMoveState.OutOfRange);
+            Move();
         }
 
         private void UpdateTarget()
         {
-            if (this.currentTarget == this.CurrentActionData?.Target)
+            if (_currentTarget == CurrentActionData?.Target)
+            {
                 return;
-            
-            this.currentTarget = this.CurrentActionData?.Target;
-            this.Events.TargetChanged(this.currentTarget, this.IsInRange());
+            }
+
+            _currentTarget = CurrentActionData?.Target;
+            Events.TargetChanged(_currentTarget, IsInRange());
         }
 
         private void SetMoveState(AgentMoveState state)
         {
-            if (this.MoveState == state)
+            if (MoveState == state)
+            {
                 return;
-            
-            this.MoveState = state;
+            }
+
+            MoveState = state;
             
             switch (state)
             {
                 case AgentMoveState.InRange:
-                    this.Events.TargetInRange(this.currentTarget);
+                    Events.TargetInRange(_currentTarget);
                     break;
                 case AgentMoveState.OutOfRange:
-                    this.Events.TargetOutOfRange(this.currentTarget);
+                    Events.TargetOutOfRange(_currentTarget);
                     break;
             }
         }
 
         private void Move()
         {
-            if (this.currentTarget == null)
+            if (_currentTarget == null)
+            {
                 return;
-            
-            this.Events.Move(this.currentTarget);
+            }
+
+            Events.Move(_currentTarget);
         }
 
         private void PerformAction()
         {
-            var result = this.CurrentAction.Perform(this, this.CurrentActionData, new ActionContext
+            var result = CurrentAction.Perform(this, CurrentActionData, new ActionContext
             {
                 DeltaTime = Time.deltaTime,
             });
 
             if (result == ActionRunState.Continue)
+            {
                 return;
-            
-            this.EndAction();
+            }
+
+            EndAction();
         }
 
         private bool IsInRange()
         {
-            var distance = this.DistanceObserver.GetDistance(this, this.CurrentActionData?.Target, this.Injector);
+            var distance = DistanceObserver.GetDistance(this, CurrentActionData?.Target, Injector);
             
-            return this.CurrentAction.IsInRange(this, distance, this.CurrentActionData, this.Injector);
+            return CurrentAction.IsInRange(this, distance, CurrentActionData, Injector);
         }
 
         public void SetGoal<TGoal>(bool endAction)
             where TGoal : IGoalBase
         {
-            this.SetGoal(this.GoapSet.ResolveGoal<TGoal>(), endAction);
+            SetGoal(GoapSet.ResolveGoal<TGoal>(), endAction);
         }
 
         public void SetGoal(IGoalBase goal, bool endAction)
         {
-            if (goal == this.CurrentGoal)
+            if (goal == CurrentGoal)
+            {
                 return;
+            }
+
+            CurrentGoal = goal;
             
-            this.CurrentGoal = goal;
-            
-            if (this.CurrentAction == null)
-                this.GoapSet.Agents.Enqueue(this);
-            
-            this.Events.GoalStart(goal);
+            if (CurrentAction == null)
+            {
+                GoapSet.Agents.Enqueue(this);
+            }
+
+            Events.GoalStart(goal);
             
             if (endAction)
-                this.EndAction();
+            {
+                EndAction();
+            }
         }
 
         public void ClearGoal()
         {
-            this.CurrentGoal = null;
+            CurrentGoal = null;
         }
 
         public void SetAction(IActionBase action, List<IActionBase> path, ITarget target)
         {
-            if (this.CurrentAction != null)
+            if (CurrentAction != null)
             {
-                this.EndAction(false);
+                EndAction(false);
             }
 
-            this.CurrentAction = action;
+            CurrentAction = action;
 
             var data = action.GetData();
-            this.Injector.Inject(data);
-            this.CurrentActionData = data;
-            this.CurrentActionData.Target = target;
-            this.CurrentActionPath = path;
-            this.CurrentAction.Start(this, this.CurrentActionData);
-            this.Events.ActionStart(action);
+            Injector.Inject(data);
+            CurrentActionData = data;
+            CurrentActionData.Target = target;
+            CurrentActionPath = path;
+            CurrentAction.Start(this, CurrentActionData);
+            Events.ActionStart(action);
         }
         
         public void EndAction(bool enqueue = true)
         {
-            var action = this.CurrentAction;
+            var action = CurrentAction;
             
-            this.CurrentAction?.End(this, this.CurrentActionData);
-            this.CurrentAction = null;
-            this.CurrentActionData = null;
-            this.currentTarget = null;
-            this.MoveState = AgentMoveState.Idle;
+            CurrentAction?.End(this, CurrentActionData);
+            CurrentAction = null;
+            CurrentActionData = null;
+            _currentTarget = null;
+            MoveState = AgentMoveState.Idle;
             
-            this.Events.ActionStop(action);
+            Events.ActionStop(action);
             
             if (enqueue)
-                this.GoapSet.Agents.Enqueue(this);
+            {
+                GoapSet.Agents.Enqueue(this);
+            }
         }
 
         public void SetDistanceMultiplierSpeed(float speed)
         {
-            this.DistanceMultiplier = 1f / speed;
+            DistanceMultiplier = 1f / speed;
         }
     }
 }

@@ -9,7 +9,7 @@ namespace CrashKonijn.Goap.Classes
 
         public PositionTarget(Vector3 position)
         {
-            this.Position = position;
+            Position = position;
         }
     }
 }

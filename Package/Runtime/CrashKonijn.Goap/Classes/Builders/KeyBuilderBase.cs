@@ -5,22 +5,22 @@ namespace CrashKonijn.Goap.Classes.Builders
 {
     public abstract class KeyBuilderBase<TInterface>
     {
-        private Dictionary<Type, TInterface> keys = new();
+        private readonly Dictionary<Type, TInterface> _keys = new();
 
         public TInterface GetKey<TKey>()
             where TKey : TInterface
         {
             var type = typeof(TKey);
             
-            if (this.keys.TryGetValue(type, out var key))
+            if (_keys.TryGetValue(type, out var key))
             {
                 return key;
             }
 
             key = (TInterface) Activator.CreateInstance(type);
             
-            this.InjectData(key);
-            this.keys.Add(type, key);
+            InjectData(key);
+            _keys.Add(type, key);
             
             return key;
         }

@@ -7,13 +7,13 @@ namespace CrashKonijn.Goap.Classes.Builders
 {
     public class WorldSensorBuilder
     {
-        private readonly WorldKeyBuilder worldKeyBuilder;
-        private readonly WorldSensorConfig config;
+        private readonly WorldKeyBuilder _worldKeyBuilder;
+        private readonly WorldSensorConfig _config;
 
         public WorldSensorBuilder(Type type, WorldKeyBuilder worldKeyBuilder)
         {
-            this.worldKeyBuilder = worldKeyBuilder;
-            this.config = new WorldSensorConfig()
+            _worldKeyBuilder = worldKeyBuilder;
+            _config = new WorldSensorConfig
             {
                 Name = type.Name,
                 ClassType = type.AssemblyQualifiedName
@@ -23,14 +23,14 @@ namespace CrashKonijn.Goap.Classes.Builders
         public WorldSensorBuilder SetKey<TWorldKey>()
             where TWorldKey : IWorldKey
         {
-            this.config.Key = this.worldKeyBuilder.GetKey<TWorldKey>();
+            _config.Key = _worldKeyBuilder.GetKey<TWorldKey>();
             
             return this; 
         }
 
         public IWorldSensorConfig Build()
         {
-            return this.config;
+            return _config;
         }
 
         public static WorldSensorBuilder Create<TWorldSensor>(WorldKeyBuilder worldKeyBuilder)

@@ -1,42 +1,38 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using CrashKonijn.Goap.Interfaces;
-using UnityEngine;
 
 namespace CrashKonijn.Goap.Behaviours
 {
     public class AgentCollection : IAgentCollection
     {
-        private HashSet<IMonoAgent> agents = new();
-        private HashSet<IMonoAgent> queue = new HashSet<IMonoAgent>();
+        private readonly HashSet<IMonoAgent> _agents = new();
+        private readonly HashSet<IMonoAgent> _queue = new();
 
-        public HashSet<IMonoAgent> All() => this.agents;
+        public HashSet<IMonoAgent> All() => _agents;
         
         public void Add(IMonoAgent agent)
         {
-            if (this.agents.Contains(agent))
-                return;
-            
-            this.agents.Add(agent);
+            _agents.Add(agent);
         }
 
         public void Remove(IMonoAgent agent)
         {
-            this.agents.Remove(agent);
+            _agents.Remove(agent);
         }
 
         public void Enqueue(IMonoAgent agent)
         {
-            this.queue.Add(agent);
+            _queue.Add(agent);
         }
         
-        public int GetQueueCount() => this.queue.Count;
+        public int GetQueueCount() => _queue.Count;
 
         public IMonoAgent[] GetQueue()
         {
-            var data = this.queue.ToArray();
+            var data = _queue.ToArray();
             
-            this.queue.Clear();
+            _queue.Clear();
 
             return data;
         }
