@@ -23,7 +23,6 @@ namespace CrashKonijn.Goap.Classes.Runners
         {
             _goapSet = goapSet;
             _resolver = graphResolver;
-            
             _executableBuilder = _resolver.GetExecutableBuilder();
             _positionBuilder = _resolver.GetPositionBuilder();
             _costBuilder = _resolver.GetCostBuilder();
@@ -33,11 +32,8 @@ namespace CrashKonijn.Goap.Classes.Runners
         public void Run()
         {
             _resolveHandles.Clear();
-            
             _goapSet.SensorRunner.Update();
-            
             var globalData = _goapSet.SensorRunner.SenseGlobal();
-
             foreach (var agent in _goapSet.Agents.GetQueue())
             {
                 Run(globalData, agent);
@@ -137,7 +133,6 @@ namespace CrashKonijn.Goap.Classes.Runners
                 }
 
                 var action = result.FirstOrDefault();
-                
                 if (action is null)
                 {
                     resolveHandle.Agent.Events.NoActionFound(resolveHandle.Agent.CurrentGoal);
@@ -149,7 +144,7 @@ namespace CrashKonijn.Goap.Classes.Runners
                     resolveHandle.Agent.SetAction(action, result, resolveHandle.Agent.WorldData.GetTarget(action));
                 }
             }
-            
+
             _resolveHandles.Clear();
         }
 

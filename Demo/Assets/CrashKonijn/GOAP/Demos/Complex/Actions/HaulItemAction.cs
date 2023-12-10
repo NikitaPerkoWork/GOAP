@@ -27,7 +27,7 @@ namespace Demos.Complex.Actions
         
         public override void Start(IMonoAgent agent, Data data)
         {
-            var item = this.itemCollection.Closest(agent.Transform.position, false, false, false);
+            var item = this.itemCollection.Closest(agent.transform.position, false, false, false);
             
             if (item is null)
                 return;
@@ -111,7 +111,7 @@ namespace Demos.Complex.Actions
             if (typeBox != null)
                 return typeBox;
 
-            var box = boxes.Where(x => x.ItemType == null).Closest(agent.Transform.position);
+            var box = boxes.Where(x => x.ItemType == null).Closest(agent.transform.position);
             box.ItemType = data.Item.GetType();
             
             return box;
