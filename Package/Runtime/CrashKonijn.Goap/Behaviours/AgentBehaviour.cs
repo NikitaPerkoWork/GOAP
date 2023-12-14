@@ -10,8 +10,6 @@ namespace CrashKonijn.Goap.Behaviours
 {
     public class AgentBehaviour : MonoBehaviour, IMonoAgent
     {
-        public GoapSetBehaviour goapSetBehaviour;
-
         [field: SerializeField]
         public float DistanceMultiplier { get; set; } = 1f;
         public AgentState State { get; private set; } = AgentState.NoAction;
