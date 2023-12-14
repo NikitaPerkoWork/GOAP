@@ -15,19 +15,24 @@ namespace CrashKonijn.Goap.Classes.Runners
         public float RunTime { get; private set; }
         public float CompleteTime { get; private set; }
 
-        public void Register(IGoapSet goapSet) => _goapSets.Add(goapSet, new GoapSetJobRunner(goapSet, new GraphResolver(goapSet.GetAllNodes().ToArray(), goapSet.GoapConfig.KeyResolver)));
+        public GoapRunner(IGoapSet goapSet)
+        {
+            _goapSets.Add(goapSet,
+                new GoapSetJobRunner(goapSet,
+                    new GraphResolver(goapSet.GetAllNodes().ToArray(), goapSet.GoapConfig.KeyResolver)));
+        }
 
         public void Run()
         {
             _stopwatch.Restart();
-            
+
             foreach (var runner in _goapSets.Values)
             {
                 runner.Run();
             }
-            
+
             RunTime = GetElapsedMs();
-                        
+
             foreach (var agent in Agents)
             {
                 if (agent.IsNull())
@@ -42,12 +47,12 @@ namespace CrashKonijn.Goap.Classes.Runners
         public void Complete()
         {
             _stopwatch.Restart();
-            
+
             foreach (var runner in _goapSets.Values)
             {
                 runner.Complete();
             }
-            
+
             CompleteTime = GetElapsedMs();
         }
 
@@ -62,8 +67,8 @@ namespace CrashKonijn.Goap.Classes.Runners
         private float GetElapsedMs()
         {
             _stopwatch.Stop();
-            
-            return (float) ((double)_stopwatch.ElapsedTicks / Stopwatch.Frequency * 1000);
+
+            return (float)((double)_stopwatch.ElapsedTicks / Stopwatch.Frequency * 1000);
         }
 
         public Graph GetGraph(IGoapSet goapSet) => _goapSets[goapSet].GetGraph();
