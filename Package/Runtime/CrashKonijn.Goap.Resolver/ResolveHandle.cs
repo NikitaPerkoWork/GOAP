@@ -30,7 +30,7 @@ namespace CrashKonijn.Goap.Resolver
         public ResolveHandle(GraphResolver graphResolver, NativeMultiHashMap<int, int> nodeConditions, NativeMultiHashMap<int, int> conditionConnections, RunData runData)
         {
             this.graphResolver = graphResolver;
-            this.job = new GraphResolverJob
+            job = new GraphResolverJob
             {
                 NodeConditions = nodeConditions,
                 ConditionConnections = conditionConnections,
@@ -38,29 +38,29 @@ namespace CrashKonijn.Goap.Resolver
                 Result = new NativeList<NodeData>(Allocator.TempJob)
             };
         
-            this.handle = this.job.Schedule();
+            handle = job.Schedule();
         }
 #endif
 
         public IAction[] Complete()
         {
-            this.handle.Complete();
+            handle.Complete();
         
-            var results = new List<IAction>();
-        
-            foreach (var data in this.job.Result)
-            {
-                results.Add(this.graphResolver.GetAction(data.Index));
-            }
-        
-            this.job.Result.Dispose();
-        
-            this.job.RunData.IsExecutable.Dispose();
-            this.job.RunData.Positions.Dispose();
-            this.job.RunData.Costs.Dispose();
-            this.job.RunData.ConditionsMet.Dispose();
+            var results = new IAction[job.Result.Length];
 
-            return results.ToArray();
+            for (var i = 0; i < job.Result.Length; i++)
+            {
+                NodeData data = job.Result[i];
+                results[i] =graphResolver.GetAction(data.Index);
+            }
+
+            job.Result.Dispose();
+            job.RunData.IsExecutable.Dispose();
+            job.RunData.Positions.Dispose();
+            job.RunData.Costs.Dispose();
+            job.RunData.ConditionsMet.Dispose();
+
+            return results;
         }
     }
 }

@@ -50,7 +50,7 @@ namespace CrashKonijn.Goap.Behaviours
             _config = config;
         }
 
-        public virtual float GetCost(IMonoAgent agent, IComponentReference references)
+        public virtual float GetCost(IMonoAgent agent)
         {
             return _config.BaseCost;
         }
@@ -61,7 +61,7 @@ namespace CrashKonijn.Goap.Behaviours
             return _config.InRange;
         }
         
-        public virtual bool IsInRange(IMonoAgent agent, float distance, IActionData data, IComponentReference references)
+        public virtual bool IsInRange(IMonoAgent agent, float distance, IActionData data)
         {
 #pragma warning disable CS0618
             return distance <= GetInRange(agent, data);

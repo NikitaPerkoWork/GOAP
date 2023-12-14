@@ -5,7 +5,7 @@ namespace CrashKonijn.Goap.Observers
 {
     public class VectorDistanceObserver : IAgentDistanceObserver
     {
-        public float GetDistance(IMonoAgent agent, ITarget target, IComponentReference reference)
+        public float GetDistance(IMonoAgent agent, ITarget target)
         {
             if (target == null)
             {

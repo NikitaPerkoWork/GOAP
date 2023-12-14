@@ -1,6 +1,4 @@
-﻿using CrashKonijn.Goap.Behaviours;
-using CrashKonijn.Goap.Classes;
-using CrashKonijn.Goap.Classes.References;
+﻿using CrashKonijn.Goap.Classes;
 using CrashKonijn.Goap.Interfaces;
 using CrashKonijn.Goap.Sensors;
 using Demos.Simple.Behaviours;
@@ -21,7 +19,7 @@ namespace Demos.Simple.Sensors.Target
         {
         }
 
-        public override ITarget Sense(IMonoAgent agent, IComponentReference references)
+        public override ITarget Sense(IMonoAgent agent)
         {
             return new TransformTarget(this.trees.Closest(agent.transform.position).transform);
         }

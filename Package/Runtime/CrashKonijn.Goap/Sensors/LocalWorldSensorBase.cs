@@ -11,8 +11,14 @@ namespace CrashKonijn.Goap.Sensors
         public IWorldSensorConfig Config { get; private set; }
         public void SetConfig(IWorldSensorConfig config) => Config = config;
 
-        public abstract void Created();
-        public abstract void Update();
-        public abstract SenseValue Sense(IMonoAgent agent, IComponentReference references);
+        public virtual void Created()
+        {
+        }
+
+        public virtual void Update()
+        {
+        }
+
+        public abstract SenseValue Sense(IMonoAgent agent);
     }
 }

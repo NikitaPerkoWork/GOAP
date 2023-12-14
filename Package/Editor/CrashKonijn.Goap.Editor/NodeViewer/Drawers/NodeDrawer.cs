@@ -82,7 +82,7 @@ namespace CrashKonijn.Goap.Editor.NodeViewer.Drawers
             var conditions = action.Conditions.Select(x => this.GetText(x as ICondition, conditionObserver.IsMet(x)));
             var effects = action.Effects.Select(x => this.GetText(x as IEffect));
 
-            var cost = action.GetCost(agent as IMonoAgent, agent.Injector);
+            var cost = action.GetCost(agent as IMonoAgent);
             
             var target = agent.WorldData.GetTarget(action);
 

@@ -107,7 +107,7 @@ namespace CrashKonijn.Goap.Classes.Runners
                 var target = localData.GetTarget(node);
 
                 _executableBuilder.SetExecutable(node, allMet);
-                _costBuilder.SetCost(node, node.GetCost(agent, agent.Injector));
+                _costBuilder.SetCost(node, node.GetCost(agent));
                 
                 _positionBuilder.SetPosition(node, target?.Position ?? transformTarget.Position);
             }

@@ -31,7 +31,7 @@ namespace CrashKonijn.Goap.Editor.NodeViewer.Drawers
             if (agent == null)
                 return "";
             
-            return debugger.GetInfo(agent as IMonoAgent, agent.Injector);
+            return debugger.GetInfo(agent as IMonoAgent);
         }
     }
 }

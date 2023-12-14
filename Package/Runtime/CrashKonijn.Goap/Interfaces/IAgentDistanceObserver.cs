@@ -2,6 +2,6 @@
 {
     public interface IAgentDistanceObserver
     {
-        float GetDistance(IMonoAgent agent, ITarget target, IComponentReference reference);
+        float GetDistance(IMonoAgent agent, ITarget target);
     }
 }

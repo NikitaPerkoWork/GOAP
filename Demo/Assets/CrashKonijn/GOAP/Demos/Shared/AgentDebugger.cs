@@ -1,15 +1,12 @@
 ﻿using CrashKonijn.Goap.Interfaces;
-using Demos.Shared.Behaviours;
 
 namespace Demos.Shared
 {
     public class AgentDebugger : IAgentDebugger
     {
-        public string GetInfo(IMonoAgent agent, IComponentReference references)
+        public string GetInfo(IMonoAgent agent)
         {
-            var hunger = references.GetCachedComponent<HungerBehaviour>();
-            
-            return $"Hunger: {hunger.hunger}";
+            return $"Hunger:";
         }
     }
 }

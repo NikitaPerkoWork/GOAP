@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using CrashKonijn.Goap.Behaviours;
 using CrashKonijn.Goap.Classes;
-using CrashKonijn.Goap.Classes.References;
 using CrashKonijn.Goap.Enums;
 using CrashKonijn.Goap.Interfaces;
 using Demos.Complex.Behaviours;
@@ -68,10 +67,8 @@ namespace Demos.Complex.Actions
             public ITarget Target { get; set; }
             public IEatable Eatable { get; set; }
             
-            [GetComponent]
             public ComplexInventoryBehaviour Inventory { get; set; }
             
-            [GetComponent]
             public HungerBehaviour Hunger { get; set; }
         }
     }

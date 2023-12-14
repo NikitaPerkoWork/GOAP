@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using CrashKonijn.Goap.Behaviours;
+﻿using CrashKonijn.Goap.Behaviours;
 using CrashKonijn.Goap.Interfaces;
 using Demos.Complex.Classes;
 using UnityEngine;

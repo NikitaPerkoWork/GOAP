@@ -11,6 +11,6 @@ namespace CrashKonijn.Goap.Sensors
         
         public abstract void Created();
         public abstract void Update();
-        public abstract ITarget Sense(IMonoAgent agent, IComponentReference references);
+        public abstract ITarget Sense(IMonoAgent agent);
     }
 }

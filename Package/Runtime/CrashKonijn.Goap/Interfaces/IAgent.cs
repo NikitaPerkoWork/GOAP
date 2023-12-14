@@ -14,7 +14,6 @@ namespace CrashKonijn.Goap.Interfaces
         IWorldData WorldData { get; }
         List<IActionBase> CurrentActionPath { get; }
         IAgentEvents Events { get; }
-        IDataReferenceInjector Injector { get; }
         IAgentDistanceObserver DistanceObserver { get; }
 
         void Run();

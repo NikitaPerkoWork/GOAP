@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using CrashKonijn.Goap.Behaviours;
 using CrashKonijn.Goap.Classes;
-using CrashKonijn.Goap.Classes.References;
 using CrashKonijn.Goap.Enums;
 using CrashKonijn.Goap.Interfaces;
 using Demos.Complex.Behaviours;
@@ -100,7 +99,6 @@ namespace Demos.Complex.Actions
             public State State { get; set; } = State.NotStarted;
             public float Timer { get; set; }
             
-            [GetComponent]
             public ComplexInventoryBehaviour Inventory { get; set; }
         }
 

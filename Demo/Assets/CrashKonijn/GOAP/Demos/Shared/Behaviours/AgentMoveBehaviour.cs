@@ -1,5 +1,4 @@
-﻿using System;
-using CrashKonijn.Goap.Behaviours;
+﻿using CrashKonijn.Goap.Behaviours;
 using CrashKonijn.Goap.Interfaces;
 using UnityEngine;
 

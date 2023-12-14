@@ -4,6 +4,6 @@
     {
         public void Update();
         
-        public ITarget Sense(IMonoAgent agent, IComponentReference references);
+        public ITarget Sense(IMonoAgent agent);
     }
 }

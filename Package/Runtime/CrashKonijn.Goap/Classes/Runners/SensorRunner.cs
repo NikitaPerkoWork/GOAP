@@ -79,12 +79,12 @@ namespace CrashKonijn.Goap.Classes.Runners
             
             foreach (var localWorldSensor in _localWorldSensors)
             {
-                _localWorldData.SetState(localWorldSensor.Key, localWorldSensor.Sense(agent, agent.Injector));
+                _localWorldData.SetState(localWorldSensor.Key, localWorldSensor.Sense(agent));
             }
             
             foreach (var localTargetSensor in _localTargetSensors)
             {
-                _localWorldData.SetTarget(localTargetSensor.Key, localTargetSensor.Sense(agent, agent.Injector));
+                _localWorldData.SetTarget(localTargetSensor.Key, localTargetSensor.Sense(agent));
             }
             
             return _localWorldData;

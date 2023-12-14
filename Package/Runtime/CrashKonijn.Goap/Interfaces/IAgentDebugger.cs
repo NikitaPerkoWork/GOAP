@@ -2,6 +2,6 @@
 {
     public interface IAgentDebugger
     {
-        string GetInfo(IMonoAgent agent, IComponentReference references);
+        string GetInfo(IMonoAgent agent);
     }
 }

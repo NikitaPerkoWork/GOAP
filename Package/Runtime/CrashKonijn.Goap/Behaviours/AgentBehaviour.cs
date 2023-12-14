@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using CrashKonijn.Goap.Classes;
-using CrashKonijn.Goap.Classes.References;
 using CrashKonijn.Goap.Enums;
 using CrashKonijn.Goap.Exceptions;
 using CrashKonijn.Goap.Interfaces;
@@ -35,28 +34,14 @@ namespace CrashKonijn.Goap.Behaviours
         public List<IActionBase> CurrentActionPath { get; private set; } = new List<IActionBase>();
         public IWorldData WorldData { get; } = new LocalWorldData();
         public IAgentEvents Events { get; } = new AgentEvents();
-        public IDataReferenceInjector Injector { get; private set; }
         public IAgentDistanceObserver DistanceObserver { get; set; } = new VectorDistanceObserver();
 
         private ITarget _currentTarget;
         private IMonoAgent _monoAgentImplementation;
 
-        private void Awake()
+        public void SetGoapSet(GoapSet goapSet)
         {
-            Injector = new DataReferenceInjector(this);
-            
-            if (goapSetBehaviour != null)
-            {
-                GoapSet = goapSetBehaviour.GoapSet;
-            }
-        }
-
-        private void Start()
-        {
-            if (GoapSet == null)
-            {
-                throw new GoapException($"There is no GoapSet assigned to the agent '{name}'! Please assign one in the inspector or through code in the Awake method.");
-            }
+            GoapSet = goapSet;
         }
 
         private void OnEnable()
@@ -187,9 +172,9 @@ namespace CrashKonijn.Goap.Behaviours
 
         private bool IsInRange()
         {
-            var distance = DistanceObserver.GetDistance(this, CurrentActionData?.Target, Injector);
+            var distance = DistanceObserver.GetDistance(this, CurrentActionData?.Target);
             
-            return CurrentAction.IsInRange(this, distance, CurrentActionData, Injector);
+            return CurrentAction.IsInRange(this, distance, CurrentActionData);
         }
 
         public void SetGoal<TGoal>(bool endAction)
@@ -235,7 +220,6 @@ namespace CrashKonijn.Goap.Behaviours
             CurrentAction = action;
 
             var data = action.GetData();
-            Injector.Inject(data);
             CurrentActionData = data;
             CurrentActionData.Target = target;
             CurrentActionPath = path;

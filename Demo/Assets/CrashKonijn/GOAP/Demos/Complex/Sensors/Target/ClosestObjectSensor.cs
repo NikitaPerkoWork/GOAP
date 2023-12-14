@@ -1,6 +1,4 @@
-﻿using CrashKonijn.Goap.Behaviours;
-using CrashKonijn.Goap.Classes;
-using CrashKonijn.Goap.Classes.References;
+﻿using CrashKonijn.Goap.Classes;
 using CrashKonijn.Goap.Interfaces;
 using CrashKonijn.Goap.Sensors;
 using UnityEngine;
@@ -21,7 +19,7 @@ namespace Demos.Complex.Sensors.Target
             this.items = GameObject.FindObjectsOfType<T>();
         }
 
-        public override ITarget Sense(IMonoAgent agent, IComponentReference references)
+        public override ITarget Sense(IMonoAgent agent)
         {
             var closest = this.items.Closest(agent.transform.position);
             

@@ -1,5 +1,4 @@
 ﻿using CrashKonijn.Goap.Classes.Builders;
-using Demos.Complex.Classes;
 using Demos.Complex.Interfaces;
 using Demos.Complex.Sensors.Target;
 using Demos.Complex.Targets;

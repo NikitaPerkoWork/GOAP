@@ -1,5 +1,4 @@
 ﻿using CrashKonijn.Goap.Classes;
-using CrashKonijn.Goap.Classes.References;
 using CrashKonijn.Goap.Classes.Runners;
 using CrashKonijn.Goap.Configs;
 using CrashKonijn.Goap.Interfaces;
@@ -115,7 +114,7 @@ namespace CrashKonijn.Goap.UnitTests
             var key = new WorldKey("test");
             
             var sensor = Substitute.For<ILocalWorldSensor>();
-            sensor.Sense(Arg.Any<IMonoAgent>(), Arg.Any<IComponentReference>()).Returns((SenseValue) 1);
+            sensor.Sense(Arg.Any<IMonoAgent>()).Returns((SenseValue) 1);
             sensor.Key.Returns(key);
             
             var worldSensors = new IWorldSensor[] { sensor };
@@ -141,7 +140,7 @@ namespace CrashKonijn.Goap.UnitTests
             var key = new WorldKey("test");
             
             var sensor = Substitute.For<ILocalWorldSensor>();
-            sensor.Sense(Arg.Any<IMonoAgent>(), Arg.Any<IComponentReference>()).Returns((SenseValue) 0);
+            sensor.Sense(Arg.Any<IMonoAgent>()).Returns((SenseValue) 0);
             sensor.Key.Returns(key);
             
             var worldSensors = new IWorldSensor[] { sensor };
@@ -168,7 +167,7 @@ namespace CrashKonijn.Goap.UnitTests
             var key = new TargetKey("test");
             
             var sensor = Substitute.For<ILocalTargetSensor>();
-            sensor.Sense(Arg.Any<IMonoAgent>(), Arg.Any<IComponentReference>()).Returns(target);
+            sensor.Sense(Arg.Any<IMonoAgent>()).Returns(target);
             sensor.Key.Returns(key);
             
             var worldSensors = new IWorldSensor[] {  };
@@ -195,7 +194,7 @@ namespace CrashKonijn.Goap.UnitTests
             var key = new TargetKey("test");
             
             var sensor = Substitute.For<ILocalTargetSensor>();
-            sensor.Sense(Arg.Any<IMonoAgent>(), Arg.Any<IComponentReference>()).ReturnsNull();
+            sensor.Sense(Arg.Any<IMonoAgent>()).ReturnsNull();
             sensor.Key.Returns(key);
             
             var worldSensors = new IWorldSensor[] {  };
@@ -251,7 +250,7 @@ namespace CrashKonijn.Goap.UnitTests
             var key = new WorldKey("test");
             
             var sensor = Substitute.For<ILocalWorldSensor>();
-            sensor.Sense(Arg.Any<IMonoAgent>(), Arg.Any<IComponentReference>()).Returns((SenseValue) 0);
+            sensor.Sense(Arg.Any<IMonoAgent>()).Returns((SenseValue) 0);
             sensor.Key.Returns(key);
             
             var worldSensors = new IWorldSensor[] { };

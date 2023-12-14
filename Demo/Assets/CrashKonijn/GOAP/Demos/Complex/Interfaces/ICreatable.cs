@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Demos.Complex.Interfaces
+﻿namespace Demos.Complex.Interfaces
 {
     public interface ICreatable : IHoldable
     {
