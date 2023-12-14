@@ -12,7 +12,6 @@ namespace Demos.Simple.Behaviours
         
         public GameObject applePrefab;
         public GameObject agentPrefab;
-        public GoapSetBehaviour goapSet;
         
         public TextMeshProUGUI appleCountText;
         public TextMeshProUGUI agentCountText;
@@ -93,7 +92,6 @@ namespace Demos.Simple.Behaviours
             for (var i = 0; i < count; i++)
             {
                 var agent = Instantiate(this.agentPrefab, this.GetRandomPosition(), Quaternion.identity).GetComponent<AgentBehaviour>();
-                agent.GoapSet = this.goapSet.GoapSet;
             
                 this.SetDebug(agent.GetComponentInChildren<TextBehaviour>(), this.debug);
             
