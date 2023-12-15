@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using CrashKonijn.Goap.Classes;
-using CrashKonijn.Goap.Configs.Interfaces;
+﻿using System.Collections.Generic;
 using CrashKonijn.Goap.Interfaces;
 using CrashKonijn.Goap.Resolver.Models;
 using UnityEngine;
@@ -17,12 +13,15 @@ public class GoapRunnerBehaviour : MonoBehaviour, IGoapRunner
     public float RunTime => _runner.RunTime;
     public float CompleteTime => _runner.CompleteTime;
     public int RunCount { get; private set; }
-
-    public List<GoapSetFactoryBase> goapSetConfigFactories = new();
     
     public void Init(IGoapSet goapSet)
     {
         _runner = new Classes.Runners.GoapRunner(goapSet);
+    }
+
+    public void Deinit()
+    {
+        _runner.Dispose();
     }
 
     public void Tick()
@@ -34,11 +33,6 @@ public class GoapRunnerBehaviour : MonoBehaviour, IGoapRunner
     public void LateTick()
     {
         _runner.Complete();
-    }
-
-    private void OnDestroy()
-    {
-        _runner.Dispose();
     }
 
     public Graph GetGraph(IGoapSet goapSet) => _runner.GetGraph(goapSet);
